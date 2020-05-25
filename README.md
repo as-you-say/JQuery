@@ -8,6 +8,7 @@ JQuery 에서의 Ajax 사용방식 아래와 같습니다.
 $.ajax({
     url: '',
     method: 'GET or POST or PUT or DELETE',
+    contentType: '',
     dataType: '',
     data: { ... },
     async: true or false,
@@ -24,11 +25,12 @@ $.ajax({
 | :---: | :---: | :---: | :--- |
 | 1 | url | string | 요청을 보낼 URL 주소 |
 | 2 | method | string | HTTP 요청 방식 |
-| 3 | dataType | string | 받을 데이터 타 |
-| 4 | data | object | 요청을 보낼 URL 에 필요한 파라미터를 담아서 보내주는  |
-| 5 | async | boolean | 비동기 처리 여부 \(동기: false, 비동기: true\) |
-| 6 | success | function | 요청이 성공할 시 실행되 함수 |
-| 7 | error | function | 요청이 실패할 시 실행되는 함수 |
+| 3 | contentType | string | 서버가 받을 데이터의 타입 |
+| 4 | dataType | string | 서버로부터 받을 데이터 타입 |
+| 5 | data | object | 요청을 보낼 URL 에 필요한 파라미터를 담아서 보내주는  |
+| 6 | async | boolean | 비동기 처리 여부 \(동기: false, 비동기: true\) |
+| 7 | success | function | 요청이 성공할 시 실행되 함수 |
+| 8 | error | function | 요청이 실패할 시 실행되는 함수 |
 
 ## Module 패턴
 
@@ -133,7 +135,19 @@ var Http = function(options){
 
 
 ```javascript
-
+var WEATHER = new Http({
+  baseUrl:'https://apis.weather.com/',
+  method:'',
+  async:false,
+  contentType: "application/json",
+  dataType: 'json',
+  data: {},
+  beforeSend: function(req) {
+    req.setRequestHeader('Authorization', 'Bearer ' + WEATHER_CSRF_TOKEN);
+  },
+  success: function(e){},
+  error: function(e){}
+});
 ```
 
 
